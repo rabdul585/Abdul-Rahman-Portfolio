@@ -15,7 +15,7 @@ This is table
 | Best Practices        | Writing guidelines and style tips          | Google Style Guide           |
 
 This is image 
-![Sample Technical Writing Diagram](https://via.placeholder.com/400x200.png?text=Sample+Diagram)
+![Sample Technical Writing Diagram](https://"C:\Users\abdulrahman.a\OneDrive - Bounteous\Documents\Onedrive issue.png")
 
 ### Michele Obama
 First Lady Michelle Obama" redirects here. For the painting, see First Lady Michelle Obama (painting).
