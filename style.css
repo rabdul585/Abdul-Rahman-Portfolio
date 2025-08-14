@@ -1,14 +1,15 @@
-/* Modern Portfolio Styles */
+/* Base light theme */
 body {
     font-family: 'Segoe UI', Tahoma, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f8f9fa;
-    color: #333;
+    background-color: #f9fafb;
+    color: #111827;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 header {
-    background-color: #1f2937;
+    background-color: #3b82f6;
     color: white;
     padding: 15px 0;
     text-align: center;
@@ -22,7 +23,23 @@ nav a {
 }
 
 nav a:hover {
-    color: #fbbf24; /* Highlight yellow on hover */
+    color: #facc15;
+}
+
+.theme-toggle {
+    background-color: white;
+    color: #3b82f6;
+    border: none;
+    padding: 6px 12px;
+    margin-left: 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.theme-toggle:hover {
+    background-color: #e5e7eb;
 }
 
 section {
@@ -35,26 +52,57 @@ section {
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-h1, h2 {
-    color: #111827;
+.profile {
+    text-align: center;
 }
 
+.profile img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+
+.info-block {
+    margin-bottom: 25px;
+}
+
+.info-block h3 {
+    color: #2563eb;
+    margin-bottom: 10px;
+}
+
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.skills-list span {
+    background-color: #e0f2fe;
+    color: #0369a1;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 0.9em;
+}
+
+/* For projects & code sections */
 .download-btn {
     display: inline-block;
     padding: 10px 15px;
     margin: 10px 5px 0 0;
-    background-color: #3b82f6;
+    background-color: #10b981;
     color: white;
     text-decoration: none;
     border-radius: 5px;
 }
 
 .download-btn:hover {
-    background-color: #2563eb;
+    background-color: #059669;
 }
 
 .project {
-    background-color: #f9fafb;
+    background-color: #f3f4f6;
     border-left: 4px solid #3b82f6;
     padding: 15px;
     margin: 15px 0;
@@ -62,16 +110,59 @@ h1, h2 {
 }
 
 pre {
-    background-color: #1f2937;
+    background-color: #111827;
     color: #f3f4f6;
     padding: 10px;
     overflow-x: auto;
     border-radius: 5px;
 }
+
+/* Footer */
 footer {
     text-align: center;
-    background-color: #1f2937;
+    background-color: #3b82f6;
     color: white;
     padding: 15px;
     margin-top: 30px;
+}
+
+/* Dark mode styles */
+body.dark {
+    background-color: #111827;
+    color: #f9fafb;
+}
+
+body.dark section {
+    background-color: #1f2937;
+}
+
+body.dark header {
+    background-color: #1e293b;
+}
+
+body.dark nav a {
+    color: #f9fafb;
+}
+
+body.dark nav a:hover {
+    color: #facc15;
+}
+
+body.dark .theme-toggle {
+    background-color: #f9fafb;
+    color: #1e293b;
+}
+
+body.dark footer {
+    background-color: #1e293b;
+}
+
+body.dark .project {
+    background-color: #334155;
+    border-color: #0ea5e9;
+}
+
+body.dark .skills-list span {
+    background-color: #2563eb;
+    color: white;
 }
