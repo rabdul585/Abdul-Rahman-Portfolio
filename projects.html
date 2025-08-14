@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects - My Portfolio</title>
+    <title>Projects - Abdul Rahman</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,6 +15,7 @@
         <a href="resume.html">Resume</a>
         <a href="experience.html">Experience</a>
         <a href="projects.html">Projects</a>
+        <button id="theme-toggle" class="theme-toggle">🌙 Dark Mode</button>
     </nav>
 </header>
 
@@ -22,8 +23,8 @@
     <h2>Python Projects</h2>
 
     <div class="project">
-        <h3>Python Alarm Clock</h3>
-        <p>A Python program that lets you set a time for alerts and plays an alarm sound when the time is reached.</p>
+        <h3>⏰ Python Alarm Clock</h3>
+        <p>This Python-based alarm clock allows users to set a specific time and plays a sound when the time is reached. It’s built with the <code>datetime</code> and <code>playsound</code> libraries.</p>
         <pre>
 import datetime
 import time
@@ -40,8 +41,8 @@ while True:
     </div>
 
     <div class="project">
-        <h3>Python Chatbot Service</h3>
-        <p>A basic chatbot application that interacts with users via simple text commands.</p>
+        <h3>🤖 Python Chatbot Service</h3>
+        <p>A basic chatbot that handles user input and gives responses. Can be extended with NLP libraries for more advanced behavior.</p>
         <pre>
 def chatbot():
     print("Hello! I'm your chatbot. Type 'quit' to exit.")
@@ -53,7 +54,7 @@ def chatbot():
         elif "hello" in user_input:
             print("Hi there! How can I help you?")
         else:
-            print("I don't understand, please try again.")
+            print("I don't understand, try again.")
 
 chatbot()
         </pre>
@@ -61,8 +62,9 @@ chatbot()
 </section>
 
 <footer>
-    &copy; 2025 My Portfolio Website
+    &copy; 2025 Abdul Rahman Portfolio
 </footer>
 
+<script src="script.js"></script>
 </body>
 </html>
