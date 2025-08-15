@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Projects - Abdul Rahman</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background: #fefefe;
+    color: #222;
+    padding: 1rem;
+  }
+  header {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+  }
+  header h1 {
+    margin: 0 0 0.5rem 0;
+  }
+  nav a, nav button {
+    margin-right: 1rem;
+    text-decoration: none;
+    color: #007BFF;
+    font-weight: 600;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 1rem;
+  }
+  nav button.theme-toggle {
+    padding-left: 0;
+  }
+  
+  h2 {
+    border-bottom: 2px solid #007BFF;
+    padding-bottom: 0.3rem;
+    margin-bottom: 1.5rem;
+  }
+  .project {
+    margin-bottom: 3rem;
+  }
+  .project h3 {
+    margin-bottom: 0.4rem;
+    font-weight: 700;
+  }
+
+  /* Tabs */
+  .tabs {
+    margin-bottom: 0.5rem;
+  }
+  .tab-button {
+    display: inline-block;
+    margin-right: 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 2px solid transparent;
+    background: none;
+    border: none;
+    color: #007BFF;
+    transition: border-color 0.3s;
+  }
+  .tab-button:hover {
+    border-color: #a3cdfd;
+  }
+  .tab-button.active {
+    border-color: #0056b3;
+    font-weight: 700;
+  }
+
+  /* Code blocks */
+  pre.tab-content {
+    background-color: #eee;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    white-space: pre-wrap;
+    max-height: 300px;
+    overflow-y: auto;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.9rem;
+    line-height: 1.3;
+    border-radius: 5px;
+  }
+  .copy-button {
+    margin-top: 0.3rem;
+    padding: 0.3rem 1rem;
+    cursor: pointer;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: background-color 0.3s;
+  }
+  .copy-button:hover {
+    background-color: #0056b3;
+  }
+
+  footer {
+    border-top: 1px solid #ccc;
+    padding: 1rem 0;
+    text-align: center;
+    color: #666;
+    font-size: 0.9rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Sample Projects</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="resume.html">Resume</a>
+    <a href="experience.html">Experience</a>
+    <a href="projects.html">Projects</a>
+    <button id="theme-toggle" class="theme-toggle">🌙 Dark Mode</button>
+  </nav>
+</header>
+
+<section>
+  <h2>Python Projects</h2>
+
+  <div class="project" id="project-1">
+    <h3>⏰ Python Alarm Clock</h3>
+    <div class="tabs">
+      <button class="tab-button active" data-tab="original-1" data-project="1">Original Code</button>
+      <button class="tab-button" data-tab="converted-1" data-project="1">Converted Code</button>
+    </div>  
+
+    <pre id="original-1" class="tab-content">
+import datetime
+import time
+import playsound
+
+alarm_time = "07:30"
+
+while True:
+    current_time = datetime.datetime.now().strftime("%H:%M")
+    if current_time == alarm_time:
+        playsound.playsound('alarm.mp3')
+        break
+    time.sleep(30)
+    </pre>
+
+    <pre id="converted-1" class="tab-content" style="display:none;">
+// C++ equivalent example
+#include &lt;iostream&gt;
+#include &lt;chrono&gt;
+#include &lt;thread&gt;
+
+using namespace std;
+
+int main() {
+    string alarm_time = "07:30";
+    while(true) {
+        time_t now = time(0);
+        tm *ltm = localtime(&now);
+        char current_time[6];
+        strftime(current_time, 6, "%H:%M", ltm);
+        if(alarm_time == current_time) {
+            cout << "Alarm ringing!" << endl;
+            break;
+        }
+        this_thread::sleep_for(chrono::seconds(30));
+    }
+    return 0;
+}
+    </pre>
+
+    <button class="copy-button" data-copy-target="original-1">Copy Original</button>
+    <button class="copy-button" data-copy-target="converted-1" style="display:none;">Copy Converted</button>
+  </div>
+
+
+  <div class="project" id="project-2">
+    <h3>Turn Based Battle Game</h3>
+    <div class="tabs">
+      <button class="tab-button active" data-tab="original-2" data-project="2">Original Code</button>
+      <button class="tab-button" data-tab="converted-2" data-project="2">Converted Code</button>
+    </div>  
+
+    <pre id="original-2" class="tab-content">
+import random
+
+def battle_game():
+    print("= WELCOME TO PLAYER vs MONSTER GAME =")
+    while True:
+        player_hp = 100
+        monster_hp = 100
+        turn_counter = 0
+        while player_hp > 0 and monster_hp > 0:
+            turn_counter += 1
+            print(f"\\n--- Turn {turn_counter} ---")
+            print(f"Player HP: {player_hp} | Monster HP: {monster_hp}")
+            actions = ["1. Regular Attack"]
+            if turn_counter % 3 == 0:
+                actions.append("2. Strong Attack")
+            if turn_counter % 5 == 0:
+                actions.append("3. Heal")
+            print("\\nChoose your action:")
+            for option in actions:
+                print(option)
+            choice = input("Enter choice number: ").strip()
+            while choice not in [str(i+1) for i in range(len(actions))]:
+                choice = input("Invalid choice. Try again: ").strip()
+            choice = int(choice)
+            if "Regular" in actions[choice-1]:
+                dmg = random.randint(10, 20)
+                monster_hp -= dmg
+                print(f"You hit the monster for {dmg} damage.")
+            elif "Strong" in actions[choice-1]:
+                dmg = random.randint(25, 40)
+                monster_hp -= dmg
+                print(f"💥 STRONG ATTACK! You hit the monster for {dmg} damage.")
+            elif "Heal" in actions[choice-1]:
+                heal_amt = random.randint(15, 30)
+                player_hp = min(100, player_hp + heal_amt)
+                print(f"✨ You healed yourself for {heal_amt} HP.")
+            if monster_hp <= 0:
+                print("\\n🎉 You defeated the monster!")
+                break
+            monster_dmg = random.randint(8, 18)
+            player_hp -= monster_dmg
+            print(f"The monster hits you for {monster_dmg} damage.")
+            if player_hp <= 0:
+                print("\\n💀 You were defeated by the monster!")
+                break
+        again = input("\\nDo you want to play again? (y/n): ").lower()
+        if again != 'y':
+            print("Thanks for playing! Goodbye!")
+            break
+
+if __name__ == "__main__":
+    battle_game()
+    </pre>
+
+    <pre id="converted-2" class="tab-content" style="display:none;">
+// Java equivalent example 
+import java.util.Scanner;
+import java.util.Random;
+
+public class BattleGame {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
+        System.out.println("= WELCOME TO PLAYER vs MONSTER GAME =");
+        while (true) {
+            int playerHp = 100;
+            int monsterHp = 100;
+            int turnCounter = 0;
+
+            while (playerHp > 0 && monsterHp > 0) {
+                turnCounter++;
+                System.out.printf("\\n--- Turn %d ---\\n", turnCounter);
+                System.out.printf("Player HP: %d | Monster HP: %d\\n", playerHp, monsterHp);
+                System.out.println("Choose your action:");
+                System.out.println("1. Regular Attack");
+                if (turnCounter % 3 == 0) System.out.println("2. Strong Attack");
+                if (turnCounter % 5 == 0) System.out.println("3. Heal");
+                int choice = scanner.nextInt();
+
+                int dmg, healAmt;
+                switch (choice) {
+                    case 1:
+                        dmg = random.nextInt(11) + 10;
+                        monsterHp -= dmg;
+                        System.out.printf("You hit the monster for %d damage.\\n", dmg);
+                        break;
+                    case 2:
+                        dmg = random.nextInt(16) + 25;
+                        monsterHp -= dmg;
+                        System.out.printf("💥 STRONG ATTACK! You hit the monster for %d damage.\\n", dmg);
+                        break;
+                    case 3:
+                        healAmt = random.nextInt(16) + 15;
+                        playerHp = Math.min(100, playerHp + healAmt);
+                        System.out.printf("✨ You healed yourself for %d HP.\\n", healAmt);
+                        break;
+                    default:
+                        System.out.println("Invalid choice.");
+                }
+
+                if (monsterHp <= 0) {
+                    System.out.println("\\n🎉 You defeated the monster!");
+                    break;
+                }
+                int monsterDmg = random.nextInt(11) + 8;
+                playerHp -= monsterDmg;
+                System.out.printf("The monster hits you for %d damage.\\n", monsterDmg);
+
+                if (playerHp <= 0) {
+                    System.out.println("\\n💀 You were defeated by the monster!");
+                    break;
+                }
+            }
+            System.out.println("\\nDo you want to play again? (y/n): ");
+            String again = scanner.next();
+            if (!again.equalsIgnoreCase("y")) {
+                System.out.println("Thanks for playing! Goodbye!");
+                break;
+            }
+        }
+        scanner.close();
+    }
+}
+    </pre>
+
+    <button class="copy-button" data-copy-target="original-2">Copy Original</button>
+    <button class="copy-button" data-copy-target="converted-2" style="display:none;">Copy Converted</button>
+  </div>
+
+  <div class="project" id="project-3">
+    <h3>🤖 Python Chatbot Service</h3>
+    <div class="tabs">
+      <button class="tab-button active" data-tab="original-3" data-project="3">Original Code</button>
+      <button class="tab-button" data-tab="converted-3" data-project="3">Converted Code</button>
+    </div>
+
+    <pre id="original-3" class="tab-content">
+def chatbot():
+    print("Hello! I'm your chatbot. Type 'quit' to exit.")
+    while True:
+        user_input = input("> ").lower()
+        if user_input == 'quit':
+            print("Goodbye!")
+            break
+        elif "hello" in user_input:
+            print("Hi there! How can I help you?")
+        else:
+            print("I don't understand, try again.")
+chatbot()
+    </pre>
+
+    <pre id="converted-3" class="tab-content" style="display:none;">
+# Linux shell script example
+#!/bin/bash
+echo "Hello! I'm your chatbot. Type 'quit' to exit."
+while true; do
+  read -p "> " user_input
+  user_input=$(echo "$user_input" | tr '[:upper:]' '[:lower:]')
+  if [ "$user_input" == "quit" ]; then
+    echo "Goodbye!"
+    break
+  elif [[ "$user_input" == *"hello"* ]]; then
+    echo "Hi there! How can I help you?"
+  else
+    echo "I don't understand, try again."
+  fi
+done
+    </pre>
+
+    <button class="copy-button" data-copy-target="original-3">Copy Original</button>
+    <button class="copy-button" data-copy-target="converted-3" style="display:none;">Copy Converted</button>
+  </div>
+</section>
+
+<footer>
+  &copy; 2025 Abdul Rahman Portfolio
+</footer>
+
+<script>
+  // Tab switching logic
+  document.querySelectorAll('.tab-button').forEach(button => {
+    button.addEventListener('click', () => {
+      const projectId = button.getAttribute('data-project');
+      const tabId = button.getAttribute('data-tab');
+
+      // Remove active class from all buttons within this project
+      document.querySelectorAll(`.project#project-${projectId} .tab-button`).forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+
+      // Show/hide corresponding pre blocks
+      document.querySelectorAll(`.project#project-${projectId} pre.tab-content`).forEach(pre => {
+        pre.id === tabId ? pre.style.display = 'block' : pre.style.display = 'none';
+      });
+
+      // Show/hide copy buttons accordingly
+      document.querySelectorAll(`.project#project-${projectId} .copy-button`).forEach(copyBtn => {
+        copyBtn.style.display = (copyBtn.getAttribute('data-copy-target') === tabId) ? 'inline-block' : 'none';
+      });
+    });
+  });
+
+  // Copy to clipboard logic
+  document.querySelectorAll('.copy-button').forEach(button => {
+    button.addEventListener('click', () => {
+      const targetId = button.getAttribute('data-copy-target');
+      const codeText = document.getElementById(targetId).innerText.trim();
+
+      navigator.clipboard.writeText(codeText).then(() => {
+        const originalText = button.textContent;
+        button.textContent = 'Copied!';
+        setTimeout(() => {
+          button.textContent = originalText;
+        }, 2000);
+      }).catch(() => {
+        alert('Failed to copy code to clipboard.');
+      });
+    });
+  });
+
+  // Optional: Dark mode toggle example (simple)
+  const themeToggleBtn = document.getElementById('theme-toggle');
+  themeToggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    if(document.body.classList.contains('dark-mode')){
+      themeToggleBtn.textContent = '☀️ Light Mode';
+      document.body.style.backgroundColor = '#121212';
+      document.body.style.color = '#ededed';
+    } else {
+      themeToggleBtn.textContent = '🌙 Dark Mode';
+      document.body.style.backgroundColor = '#fefefe';
+      document.body.style.color = '#222';
+    }
+  });
+</script>
+
+</body>
+</html>
