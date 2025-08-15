@@ -61,71 +61,58 @@ If one reaches zero, declare a winner and ask to restart.
 
 Here’s a clean Python implementation for this scenario: </p>
         <pre>
-            import random
+import random
 
 def battle_game():
-    print("=== WELCOME TO PLAYER vs MONSTER GAME ===")
-
+    print("= WELCOME TO PLAYER vs MONSTER GAME =")
     while True:
         player_hp = 100
         monster_hp = 100
         turn_counter = 0
-
         while player_hp > 0 and monster_hp > 0:
             turn_counter += 1
             print(f"\n--- Turn {turn_counter} ---")
             print(f"Player HP: {player_hp} | Monster HP: {monster_hp}")
-
             # Determine allowed actions
             actions = ["1. Regular Attack"]
             if turn_counter % 3 == 0:
                 actions.append("2. Strong Attack")
             if turn_counter % 5 == 0:
                 actions.append("3. Heal")
-
             # Display options
             print("\nChoose your action:")
             for option in actions:
                 print(option)
-
             # Input validation
             choice = input("Enter choice number: ").strip()
             while choice not in [str(i+1) for i in range(len(actions))]:
                 choice = input("Invalid choice. Try again: ").strip()
-
             choice = int(choice)
-
             # Player action
             if "Regular" in actions[choice-1]:
                 dmg = random.randint(10, 20)
                 monster_hp -= dmg
                 print(f"You hit the monster for {dmg} damage.")
-
             elif "Strong" in actions[choice-1]:
                 dmg = random.randint(25, 40)
                 monster_hp -= dmg
                 print(f"💥 STRONG ATTACK! You hit the monster for {dmg} damage.")
-
             elif "Heal" in actions[choice-1]:
                 heal_amt = random.randint(15, 30)
                 player_hp = min(100, player_hp + heal_amt)
                 print(f"✨ You healed yourself for {heal_amt} HP.")
-
             # Check if monster is defeated before it attacks
             if monster_hp <= 0:
                 print("\n🎉 You defeated the monster!")
                 break
-
             # Monster's turn
             monster_dmg = random.randint(8, 18)
             player_hp -= monster_dmg
             print(f"The monster hits you for {monster_dmg} damage.")
-
             # Check if player is defeated
             if player_hp <= 0:
                 print("\n💀 You were defeated by the monster!")
                 break
-
         # Game over - ask for replay
         again = input("\nDo you want to play again? (y/n): ").lower()
         if again != 'y':
@@ -134,29 +121,7 @@ def battle_game():
 
 if __name__ == "__main__":
     battle_game()
-
-        </pre>
-    </div>
-   
-
-    <div class="project">
-        <h3>🤖 Python Chatbot Service</h3>
-        <p>A basic chatbot that handles user input and gives responses. Can be extended with NLP libraries for more advanced behavior.</p>
-        <pre>
-def chatbot():
-    print("Hello! I'm your chatbot. Type 'quit' to exit.")
-    while True:
-        user_input = input("> ").lower()
-        if user_input == 'quit':
-            print("Goodbye!")
-            break
-        elif "hello" in user_input:
-            print("Hi there! How can I help you?")
-        else:
-            print("I don't understand, try again.")
-
-chatbot()
-        </pre>
+</pre>
     </div>
 </section>
 
