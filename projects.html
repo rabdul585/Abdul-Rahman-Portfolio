@@ -6,129 +6,238 @@
     <title>Projects - Abdul Rahman</title>
     <link rel="stylesheet" href="style.css">
 </head>
+<!--
+Project Card Component (single-file)
+Usage: drop this file into your site or copy the <article class="project-card"> block into your projects.html
+Features:
+- Responsive card with thumbnail, title, summary, tech badges, links
+- Accessible (semantic HTML, ARIA)
+- Optional "Show code" collapsible block
+- Dark-mode support with persisted preference (localStorage)
+- JavaScript helper to render cards from JSON data
+-->
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Project Card Component — Example</title>
+  <style>
+    :root{
+      --bg: #ffffff;
+      --card: #f7f8fb;
+      --muted: #6b7280;
+      --text: #0f172a;
+      --accent: #2563eb;
+      --radius: 12px;
+      --shadow: 0 6px 18px rgba(16,24,40,0.08);
+      --gap: 14px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color-scheme: light;
+    }
+    :root.dark{
+      --bg: #0b1220;
+      --card: #071028;
+      --muted: #9aa6b2;
+      --text: #e6eef9;
+      --accent: #60a5fa;
+      --shadow: 0 8px 28px rgba(2,6,23,0.7);
+      color-scheme: dark;
+    }
+
+    html,body{height:100%;margin:0;background:var(--bg);color:var(--text);}
+    .wrap{max-width:1100px;margin:36px auto;padding:20px}
+
+    /* Card layout */
+    .project-card{display:grid;grid-template-columns: 360px 1fr;gap:var(--gap);align-items:start;background:linear-gradient(180deg, transparent, transparent);padding:18px;border-radius:var(--radius);box-shadow:var(--shadow);background-color:var(--card);}
+    .project-card img{width:100%;height:100%;max-height:220px;object-fit:cover;border-radius:8px;display:block}
+    .project-body{display:flex;flex-direction:column;gap:8px}
+    .project-title{margin:0;font-size:1.125rem;font-weight:700}
+    .project-desc{margin:0;color:var(--muted);line-height:1.45}
+
+    .meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:0.875rem;color:var(--muted)}
+    .tech-badges{display:flex;gap:8px;flex-wrap:wrap}
+    .badge{padding:6px 8px;border-radius:999px;background:rgba(0,0,0,0.04);font-size:0.8rem}
+    :root.dark .badge{background:rgba(255,255,255,0.04)}
+
+    .links{display:flex;gap:12px;align-items:center}
+    .btn{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:10px;text-decoration:none;font-weight:600;background:transparent;border:1px solid rgba(0,0,0,0.06);color:var(--text)}
+    :root.dark .btn{border-color:rgba(255,255,255,0.06)}
+    .btn:focus{outline:3px solid rgba(37,99,235,0.15)}
+
+    .actions{margin-top:8px;display:flex;gap:8px;justify-content:flex-start}
+
+    /* Code collapsible */
+    pre{background:rgba(0,0,0,0.03);padding:12px;border-radius:8px;overflow:auto;font-size:0.9rem}
+    :root.dark pre{background:rgba(255,255,255,0.03)}
+    .show-code{cursor:pointer;border:none;background:transparent;padding:6px 8px;font-weight:600}
+
+    /* Small screens */
+    @media (max-width:880px){
+      .project-card{grid-template-columns:1fr;}
+      .project-card img{max-height:320px}
+    }
+
+    /* Tiny utility */
+    .muted{color:var(--muted)}
+  </style>
+</head>
 <body>
-
-<header>
-    <h1>Sample Projects</h1>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="resume.html">Resume</a>
-        <a href="experience.html">Experience</a>
-        <a href="projects.html">Projects</a>
-        <button id="theme-toggle" class="theme-toggle">🌙 Dark Mode</button>
-    </nav>
-</header>
-
-<section>
-    <h2>Python Projects</h2>
-
-    <div class="project">
-        <h3>⏰ Python Alarm Clock</h3>
-        <p>This Python-based alarm clock allows users to set a specific time and plays a sound when the time is reached. It’s built with the <code>datetime</code> and <code>playsound</code> libraries.</p>
-        <pre>
-import datetime
-import time
-import playsound
-
-alarm_time = "07:30"
-while True:
-    current_time = datetime.datetime.now().strftime("%H:%M")
-    if current_time == alarm_time:
-        playsound.playsound('alarm.mp3')
-        break
-    time.sleep(30)
-        </pre>
+  <div class="wrap">
+    <!-- dark mode toggle -->
+    <div style="display:flex;justify-content:flex-end;margin-bottom:12px;gap:8px;align-items:center">
+      <label for="themeToggle" class="muted" style="font-size:0.9rem">Dark</label>
+      <button id="themeToggle" aria-pressed="false" class="btn" title="Toggle dark mode">Toggle theme</button>
     </div>
-    <div class="project">
-        <h3> Turn Based battle </h3>
-        <p> a Python turn-based battle game between a player and a computer-controlled monster, with special rules:
 
-Player & monster: 100 HP each initially.
+    <!-- Container where cards will be injected -->
+    <section id="projectsList" aria-label="Projects list">
+      <!-- Example card (rendered by JS below). You can also paste server-rendered cards with the same HTML structure. -->
+    </section>
+  </div>
 
-Choices:
+  <template id="projectCardTemplate">
+    <article class="project-card">
+      <div class="project-media">
+        <img src="" alt="" loading="lazy"/>
+      </div>
+      <div class="project-body">
+        <header>
+          <h3 class="project-title"></h3>
+          <p class="project-desc"></p>
+        </header>
+        <div class="meta">
+          <div class="tech-badges" aria-hidden="true"></div>
+          <div style="margin-left:auto" class="muted project-date"></div>
+        </div>
 
-Regular attack (available every turn) — moderate damage.
+        <div class="actions">
+          <div class="links">
+            <!-- links inserted here -->
+          </div>
+        </div>
 
-Strong attack — available every 3 turns only — high damage.
+        <div class="code-area">
+          <button class="show-code" aria-expanded="false">Show code</button>
+          <pre hidden class="code-block"><code class="code-text"></code></pre>
+        </div>
+      </div>
+    </article>
+  </template>
 
-Heal — available every 5 turns only — restores HP.
+  <script>
+    // ===== Theme handling (persisted) =====
+    const root = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('theme');
+    function applyTheme(t){
+      if(t === 'dark') document.documentElement.classList.add('dark');
+      else document.documentElement.classList.remove('dark');
+      themeToggle.setAttribute('aria-pressed', t === 'dark');
+    }
+    if(savedTheme) applyTheme(savedTheme); else {
+      // respect user OS preference when no saved preference
+      applyTheme(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    }
+    themeToggle.addEventListener('click', ()=>{
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      themeToggle.setAttribute('aria-pressed', isDark);
+    });
 
-Damage/heal values random within ranges.
+    // ===== Helper: build a card from data =====
+    function createProjectCard(data){
+      const tpl = document.getElementById('projectCardTemplate');
+      const node = tpl.content.cloneNode(true);
+      const article = node.querySelector('article.project-card');
 
-Monster attacks after player each turn.
+      // Media
+      const img = node.querySelector('img');
+      img.src = data.thumbnail || 'https://via.placeholder.com/720x405?text=No+image';
+      img.alt = data.thumbnailAlt || `${data.title} screenshot`;
 
-If one reaches zero, declare a winner and ask to restart.
+      // Text
+      node.querySelector('.project-title').textContent = data.title || 'Untitled Project';
+      node.querySelector('.project-desc').textContent = data.description || '';
+      node.querySelector('.project-date').textContent = data.date || '';
 
-Here’s a clean Python implementation for this scenario: </p>
-        <pre>
-import random
+      // tech badges
+      const badges = node.querySelector('.tech-badges');
+      (data.tech || []).forEach(t=>{
+        const b = document.createElement('span'); b.className='badge'; b.textContent = t; badges.appendChild(b);
+      });
 
-def battle_game():
-    print("= WELCOME TO PLAYER vs MONSTER GAME =")
-    while True:
-        player_hp = 100
-        monster_hp = 100
-        turn_counter = 0
-        while player_hp > 0 and monster_hp > 0:
-            turn_counter += 1
-            print(f"\n--- Turn {turn_counter} ---")
-            print(f"Player HP: {player_hp} | Monster HP: {monster_hp}")
-            # Determine allowed actions
-            actions = ["1. Regular Attack"]
-            if turn_counter % 3 == 0:
-                actions.append("2. Strong Attack")
-            if turn_counter % 5 == 0:
-                actions.append("3. Heal")
-            # Display options
-            print("\nChoose your action:")
-            for option in actions:
-                print(option)
-            # Input validation
-            choice = input("Enter choice number: ").strip()
-            while choice not in [str(i+1) for i in range(len(actions))]:
-                choice = input("Invalid choice. Try again: ").strip()
-            choice = int(choice)
-            # Player action
-            if "Regular" in actions[choice-1]:
-                dmg = random.randint(10, 20)
-                monster_hp -= dmg
-                print(f"You hit the monster for {dmg} damage.")
-            elif "Strong" in actions[choice-1]:
-                dmg = random.randint(25, 40)
-                monster_hp -= dmg
-                print(f"💥 STRONG ATTACK! You hit the monster for {dmg} damage.")
-            elif "Heal" in actions[choice-1]:
-                heal_amt = random.randint(15, 30)
-                player_hp = min(100, player_hp + heal_amt)
-                print(f"✨ You healed yourself for {heal_amt} HP.")
-            # Check if monster is defeated before it attacks
-            if monster_hp <= 0:
-                print("\n🎉 You defeated the monster!")
-                break
-            # Monster's turn
-            monster_dmg = random.randint(8, 18)
-            player_hp -= monster_dmg
-            print(f"The monster hits you for {monster_dmg} damage.")
-            # Check if player is defeated
-            if player_hp <= 0:
-                print("\n💀 You were defeated by the monster!")
-                break
-        # Game over - ask for replay
-        again = input("\nDo you want to play again? (y/n): ").lower()
-        if again != 'y':
-            print("Thanks for playing! Goodbye!")
-            break
+      // links
+      const linksWrap = node.querySelector('.links');
+      (data.links || []).forEach(l=>{
+        const a = document.createElement('a');
+        a.className = 'btn';
+        a.href = l.href;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.textContent = l.label;
+        a.setAttribute('aria-label', l.label + ' (' + (data.title || 'project') + ')');
+        linksWrap.appendChild(a);
+      });
 
-if __name__ == "__main__":
-    battle_game()
-</pre>
-    </div>
-</section>
+      // code block (optional)
+      const codeText = node.querySelector('.code-text');
+      const codeBlock = node.querySelector('.code-block');
+      const showBtn = node.querySelector('.show-code');
+      if(data.code){
+        codeText.textContent = data.code.trim();
+        showBtn.addEventListener('click', ()=>{
+          const expanded = showBtn.getAttribute('aria-expanded') === 'true';
+          showBtn.setAttribute('aria-expanded', String(!expanded));
+          codeBlock.hidden = expanded;
+          showBtn.textContent = expanded ? 'Show code' : 'Hide code';
+        });
+      } else {
+        // remove code area when absent
+        node.querySelector('.code-area').remove();
+      }
 
-<footer>
-    &copy; 2025 Abdul Rahman Portfolio
-</footer>
+      return node;
+    }
 
-<script src="script.js"></script>
+    // ===== Example data (replace with your actual project JSON) =====
+    const projects = [
+      {
+        title: 'Python Alarm Clock',
+        description: 'Small GUI alarm built with Python and playsound. Schedule alarms and play custom MP3s.',
+        thumbnail: 'https://raw.githubusercontent.com/rabdul585/Abdul-Rahman-Portfolio/main/assets/alarm-thumb.webp',
+        thumbnailAlt: 'Python Alarm Clock UI',
+        tech: ['Python','Tkinter','playsound'],
+        date: '2025',
+        links: [
+          {label: 'View source — GitHub', href: 'https://github.com/rabdul585/Abdul-Rahman-Portfolio'},
+          {label: 'Demo video', href: '#'}
+        ],
+        code: `# example Python snippet\nimport datetime\nprint('alarm set')` 
+      },
+      {
+        title: 'Portfolio Website',
+        description: 'Static portfolio deployed via GitHub Pages. Features responsive layout and dark mode.',
+        thumbnail: 'https://raw.githubusercontent.com/rabdul585/Abdul-Rahman-Portfolio/main/assets/portfolio-thumb.webp',
+        tech: ['HTML','CSS','JavaScript'],
+        date: '2024',
+        links: [
+          {label: 'View site', href: 'https://rabdul585.github.io/Abdul-Rahman-Portfolio/'},
+          {label: 'Source', href: 'https://github.com/rabdul585/Abdul-Rahman-Portfolio'}
+        ]
+      }
+    ];
+
+    // render
+    const list = document.getElementById('projectsList');
+    projects.forEach(p=>{
+      const node = createProjectCard(p);
+      list.appendChild(node);
+    });
+
+  </script>
 </body>
+</html>
+
 </html>
