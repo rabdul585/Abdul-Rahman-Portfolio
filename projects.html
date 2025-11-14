@@ -1,3 +1,65 @@
+<script>
+// ---------- CONFIG ----------
+const GITHUB_RAW_BASE = 'https://raw.githubusercontent.com';
+const GITHUB_OWNER = 'rabdul585';
+const GITHUB_REPO = 'AI';
+const PROJECTS_JSON_PATH = 'projects.json'; // path in AI repo
+// --------------------------------
+
+function rawUrl(path) {
+  const branch = 'main';
+  return `${GITHUB_RAW_BASE}/${GITHUB_OWNER}/${GITHUB_REPO}/${branch}/${path}`;
+}
+
+function createCardHTML(p) {
+  const screenshotUrl = p.screenshot ? rawUrl(p.screenshot) : '';
+  const repoUrl = `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}${p.path ? '/tree/main/' + p.path : ''}`;
+  const demoHtml = p.demo ? `<a class="btn secondary" href="${p.demo}" target="_blank">Live Demo</a>` : '';
+  const screenshotButton = screenshotUrl ? `<a class="btn secondary" href="#" data-screenshot="${screenshotUrl}" data-caption="${p.name}">Screenshot</a>` : '';
+
+  return `
+  <article class="project-card">
+      <img class="thumb" src="${screenshotUrl}" alt="${p.name}" loading="lazy">
+      <div class="card-body">
+        <h3>${p.name}</h3>
+        <p>${p.description}</p>
+        <div class="card-actions">
+          <a class="btn" href="${repoUrl}" target="_blank">View Code</a>
+          ${demoHtml}
+          ${screenshotButton}
+        </div>
+      </div>
+  </article>`;
+}
+
+async function loadProjects() {
+  const container = document.getElementById('projects-container');
+  container.innerHTML = '<p>Loading projects…</p>';
+
+  const url = rawUrl(PROJECTS_JSON_PATH);
+
+  try {
+    const res = await fetch(url);
+
+    if (!res.ok) {
+      container.innerHTML = "<p>Unable to load projects.json</p>";
+      return;
+    }
+
+    const data = await res.json();
+    container.innerHTML = data.map(createCardHTML).join('');
+  } catch (error) {
+    console.log(error);
+    container.innerHTML = "<p>Error loading projects.</p>";
+  }
+}
+
+loadProjects();
+</script>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
